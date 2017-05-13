@@ -14,6 +14,9 @@ app.get("/", function (req, res, next) {
     res.render("home");
 });
 
+app.get("/all_books", function (req, res, next) {
+    res.render("all_books");
+});
 
 
 app.listen(3000, function () {
