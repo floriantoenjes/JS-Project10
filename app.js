@@ -20,7 +20,7 @@ app.get("/", function (req, res, next) {
 
 app.get("/all_books", function (req, res, next) {
     if (req.query.filter === "overdue") {
-//        res.send("Overdue");
+        //        res.send("Overdue");
         const books = [];
 
         Loan.findAll({
@@ -31,18 +31,28 @@ app.get("/all_books", function (req, res, next) {
                 returned_on: null
             }
         }).then(function (loans) {
+            const promises = [];
             for (let loan of loans) {
-                console.log("Loan: ", loan.book_id);
-                Book.findOne({
-                    where: {
-                        id: loan.book_id
-                    }
-                }).then(function (book) {
-                    books.push(book);
-                    console.log("Books: ", books);
-                });
+                promises.push(new Promise(function (resolve, reject) {
+                    console.log("Loan: ", loan.book_id);
+                    Book.findOne({
+                        where: {
+                            id: loan.book_id
+                        }
+                    }).then(function (book) {
+                        books.push(book);
+                        resolve(true);
+                        console.log("Books: ", books);
+                    });
+                }));
+
             }
-            res.render("all_books", {books: books});
+            Promise.all(promises).then(function () {
+                res.render("all_books", {
+                    books: books
+                });
+            });
+
         });
 
     } else if (req.query.filter === "checked_out") {
