@@ -16,22 +16,20 @@ router.get("/", function (req, res, next) {
             }
             ]
     }).then(function (results) {
-        const loanes = [];
+        const loans = [];
         for (let result of results) {
             console.log("Result");
             const loan = {
-                book: result.book.title,
+                book_title: result.book.title,
                 patron_first_name: result.patron.first_name,
                 patron_last_name: result.patron.last_name,
                 loaned_on: result.loaned_on,
                 return_by: result.return_by,
                 returned_on: result.returned_on
             };
-            loanes.push(loan);
+            loans.push(loan);
         }
-//        res.render("all_loans", {loanes: loanes});
-        console.log(loanes.length);
-        res.send("Hello");
+        res.render("loans", {loans: loans});
     });
 });
 

@@ -38,7 +38,7 @@ router.get("/", function (req, res, next) {
     } else {
 
         Book.findAll().then(function (books) {
-            res.render("all_books", {
+            res.render("books", {
                 books: books
             });
         });
@@ -51,7 +51,7 @@ router.get("/", function (req, res, next) {
             books.push(result.book);
         }
 
-        res.render("all_books", {
+        res.render("books", {
             books: books
         });
     }

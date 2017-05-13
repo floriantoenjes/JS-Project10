@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", function (req, res, next) {
     Patron.findAll().then(function (patrons) {
-        res.render("all_patrons", {
+        res.render("patrons", {
             patrons: patrons
         });
     });

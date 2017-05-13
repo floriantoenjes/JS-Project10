@@ -2,43 +2,43 @@ doctype html
 html
   head
     title Books
-    |     
+    |
     link(rel='stylesheet', href='static/css/style.css')
   nav
     ul
       li
         a(href='all_books') Books
-      |         
+      |
       li
         a(href='all_patrons') Patrons
-      |         
+      |
       li
         a(href='all_loans') Loans
   body
     h1 Books
-    |     
+    |
     p
       a.button(href='new_book.html') Create New Book
-    |     
+    |
     p
-      | Filters 
+      | Filters
       a(href='all_books') All
-      |  | 
+      |  |
       a(href='overdue_books.html') Overdue
-      |  | 
+      |  |
       a(href='checked_books.html') Checked Out
-    |     
+    |
     table
       thead
         tr
           th Title
-          |                 
+          |
           th Author
-          |                 
+          |
           th Genre
-          |                 
+          |
           th Year Released
-      |         
+      |
       tbody
         each book in books
             tr
