@@ -18,7 +18,6 @@ router.get("/", function (req, res, next) {
     }).then(function (results) {
         const loans = [];
         for (let result of results) {
-            console.log("Result");
             const loan = {
                 book_title: result.book.title,
                 patron_first_name: result.patron.first_name,
