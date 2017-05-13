@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", function (req, res, next) {
     if (req.query.filter === "overdue") {
-        const books = [];
 
         Loan.findAll({
             where: {
@@ -20,19 +19,9 @@ router.get("/", function (req, res, next) {
                     model: Book
                 }
             ]
-        }).then(function (results) {
-            for (let result of results) {
-                books.push(result.book);
-            }
-
-            console.log(books);
-            res.render("all_books", {
-                books: books
-            });
-        });
+        }).then(renderResults);
 
     } else if (req.query.filter === "checked_out") {
-        const books = [];
 
         Loan.findAll({
             where: {
@@ -43,16 +32,7 @@ router.get("/", function (req, res, next) {
                     model: Book
                 }
             ]
-        }).then(function (results) {
-            for (let result of results) {
-                books.push(result.book);
-            }
-
-            console.log(books);
-            res.render("all_books", {
-                books: books
-            });
-        });
+        }).then(renderResults);
 
     } else {
 
@@ -62,6 +42,17 @@ router.get("/", function (req, res, next) {
             });
         });
 
+    }
+
+    function renderResults(results) {
+        const books = [];
+        for (let result of results) {
+            books.push(result.book);
+        }
+
+        res.render("all_books", {
+            books: books
+        });
     }
 });
 
