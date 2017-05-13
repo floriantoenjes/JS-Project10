@@ -3,6 +3,7 @@
 const express = require("express");
 const Book = require("./models").books;
 const Patron = require("./models").patrons;
+const Loan = require("./models").loans;
 const sequelize = require("./models").sequelize;
 
 const app = express();
@@ -29,6 +30,14 @@ app.get("/all_patrons", function (req, res, next) {
     Patron.findAll().then(function (patrons) {
         res.render("all_patrons", {
             patrons: patrons
+        });
+    });
+});
+
+app.get("/all_loans", function (req, res, next) {
+    Loan.findAll().then(function (loans) {
+        res.render("all_loans", {
+            loans: loans
         });
     });
 });
