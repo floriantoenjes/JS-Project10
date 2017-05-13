@@ -26,7 +26,9 @@ router.get("/", function (req, res, next) {
             }
 
             console.log(books);
-            res.render("all_books", {books:books});
+            res.render("all_books", {
+                books: books
+            });
         });
 
     } else if (req.query.filter === "checked_out") {
@@ -35,28 +37,21 @@ router.get("/", function (req, res, next) {
         Loan.findAll({
             where: {
                 returned_on: null
-            }
-        }).then(function (loans) {
-            const promises = [];
-
-            for (let loan of loans) {
-                promises.push(new Promise(function (resolve, reject) {
-                    Book.findOne({
-                        where: {
-                            id: loan.book_id
-                        }
-                    }).then(function (book) {
-                        books.push(book);
-                        resolve(true);
-                    });
-                }));
+            },
+            include: [
+                {
+                    model: Book
+                }
+            ]
+        }).then(function (results) {
+            for (let result of results) {
+                books.push(result.book);
             }
 
-            Promise.all(promises).then(function () {
-                res.render("all_books", {
-                    books: books
-                });
-            })
+            console.log(books);
+            res.render("all_books", {
+                books: books
+            });
         });
 
     } else {
