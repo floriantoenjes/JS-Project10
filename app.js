@@ -6,6 +6,7 @@ const sequelize = require("./models").sequelize;
 
 const books = require("./routes/books.js")
 const loans = require("./routes/loans.js")
+const patrons = require("./routes/patrons.js")
 
 const app = express();
 
@@ -19,20 +20,11 @@ app.get("/", function (req, res, next) {
     res.render("home");
 });
 
-
-app.get("/all_patrons", function (req, res, next) {
-    Patron.findAll().then(function (patrons) {
-        res.render("all_patrons", {
-            patrons: patrons
-        });
-    });
-});
-
-
-
 app.use("/all_books", books);
 
 app.use("/all_loans", loans);
+
+app.use("/all_patrons", patrons);
 
 sequelize.sync().then(function () {
     app.listen(3000, function () {
