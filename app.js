@@ -53,7 +53,14 @@ app.get("/all_books", function (req, res, next) {
         });
 
     } else if (req.query.filter === "checked_out") {
-        res.send("Checked out");
+        Loan.findAll({
+            where: {
+                returned_on: null
+            }
+        }).then(function (loans) {
+            res.send("Checked out");
+        });
+
     } else {
         Book.findAll().then(function (books) {
             console.log(books);
