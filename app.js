@@ -19,9 +19,9 @@ app.get("/", function (req, res, next) {
     res.render("home");
 });
 
-app.use("/all_books", books);
-app.use("/all_loans", loans);
-app.use("/all_patrons", patrons);
+app.use("/books", books);
+app.use("/loans", loans);
+app.use("/patrons", patrons);
 
 sequelize.sync().then(function () {
     app.listen(3000, function () {

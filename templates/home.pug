@@ -7,13 +7,13 @@ html
   nav
     ul
       li
-        a(href='all_books') Books
+        a(href='books') Books
       |     
       li
-        a(href='all_patrons') Patrons
+        a(href='patrons') Patrons
       |     
       li
-        a(href='all_loans') Loans
+        a(href='loans') Loans
   body
     h1 Library Manager
     |   
@@ -27,13 +27,13 @@ html
             a(href='/books/new') New Book
           |         
           li
-            a(href='all_books') List All
+            a(href='books') List All
           |         
           li
-            a(href='all_books?filter=overdue') List Overdue
+            a(href='books?filter=overdue') List Overdue
           |         
           li
-            a(href='all_books?filter=checked_out') List Checked Out
+            a(href='books?filter=checked_out') List Checked Out
       |     
       li
         | Patrons
@@ -42,7 +42,7 @@ html
             a(href='/patrons/new') New Patron
           |         
           li
-            a(href='all_patrons') List All
+            a(href='patrons') List All
       |     
       li
         | Loans
@@ -51,7 +51,7 @@ html
             a(href='new_loan.html') New Loan
           |         
           li
-            a(href='all_loans') List All
+            a(href='loans') List All
           |         
           li
             a(href='overdue_loans.html') List Overdue
