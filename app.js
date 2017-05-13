@@ -83,12 +83,14 @@ app.get("/all_books", function (req, res, next) {
         });
 
     } else {
+
         Book.findAll().then(function (books) {
             console.log(books);
             res.render("all_books", {
                 books: books
             });
         });
+
     }
 });
 
