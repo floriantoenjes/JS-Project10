@@ -5,6 +5,7 @@ const Loan = require("../db.js").loans;
 const router = express.Router();
 
 router.get("/", function (req, res, next) {
+
     if (req.query.filter === "overdue") {
 
         Loan.findAll({
