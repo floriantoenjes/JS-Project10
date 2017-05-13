@@ -43,7 +43,7 @@ html
         each book in books
             tr
               td
-                a(href='book_detail.html') Harry Potter and the Philosopher&apos;s Stone
+                a(href='book_detail.html') #{book.title}
               |
               td #{book.author}
               |
