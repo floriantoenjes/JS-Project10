@@ -19,11 +19,29 @@ app.get("/", function (req, res, next) {
 });
 
 app.get("/all_books", function (req, res, next) {
-    Book.findAll().then(function (books) {
-        res.render("all_books", {
-            books: books
+    if (req.query.filter === "overdue") {
+        res.send("Overdue");
+
+        Loan.findAll({
+            where: {
+                return_by: {
+                    $lt: Date()
+                },
+                returned_on: null
+            }
+        }).then(function (loans) {
+            console.log(loans);
         });
-    });
+
+    } else if (req.query.filter === "checked_out") {
+        res.send("Checked out");
+    } else {
+        Book.findAll().then(function (books) {
+            res.render("all_books", {
+                books: books
+            });
+        });
+    }
 });
 
 app.get("/all_patrons", function (req, res, next) {
