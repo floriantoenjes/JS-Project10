@@ -61,4 +61,9 @@ router.get("/new_book", function (req, res, next) {
     res.render("new_book");
 });
 
+router.post("/new_book", function (req, res, next) {
+    console.log(req.body.title);
+    res.send("Success!")
+});
+
 module.exports = router;

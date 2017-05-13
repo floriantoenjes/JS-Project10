@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const Patron = require("./models").patrons;
 const sequelize = require("./models").sequelize;
 
@@ -10,6 +11,10 @@ const patrons = require("./routes/patrons.js")
 
 const app = express();
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use('/static', express.static(__dirname + '/public'));
 
 app.set('view engine', 'pug');
