@@ -18,8 +18,7 @@ app.get("/", function (req, res, next) {
 
 app.get("/all_books", function (req, res, next) {
     Book.findAll().then(function(books) {
-        console.log(books);
-        res.render("all_books");
+        res.render("all_books", {books: books});
     });
 });
 
