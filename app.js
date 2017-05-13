@@ -20,7 +20,6 @@ app.get("/", function (req, res, next) {
 
 app.get("/all_books", function (req, res, next) {
     if (req.query.filter === "overdue") {
-        //        res.send("Overdue");
         const books = [];
 
         Loan.findAll({
@@ -34,7 +33,6 @@ app.get("/all_books", function (req, res, next) {
             const promises = [];
             for (let loan of loans) {
                 promises.push(new Promise(function (resolve, reject) {
-                    console.log("Loan: ", loan.book_id);
                     Book.findOne({
                         where: {
                             id: loan.book_id
@@ -42,7 +40,6 @@ app.get("/all_books", function (req, res, next) {
                     }).then(function (book) {
                         books.push(book);
                         resolve(true);
-                        console.log("Books: ", books);
                     });
                 }));
 
