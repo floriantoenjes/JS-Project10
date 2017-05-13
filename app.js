@@ -1,7 +1,8 @@
 "use strict";
 
 const express = require("express");
-const books = require("./models").books;
+const Book = require("./models").books;
+const sequelize = require("./models").sequelize;
 
 const app = express();
 
@@ -16,10 +17,15 @@ app.get("/", function (req, res, next) {
 });
 
 app.get("/all_books", function (req, res, next) {
-    res.render("all_books");
+    Book.findAll().then(function(books) {
+        console.log(books);
+        res.render("all_books");
+    });
 });
 
 
-app.listen(3000, function () {
+sequelize.sync().then(function () {
+  app.listen(3000, function () {
     console.log("The frontend server is running on port 3000!");
+  });
 });
