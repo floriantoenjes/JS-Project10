@@ -11,7 +11,7 @@ app.set('views', __dirname + '/templates');
 
 
 app.get("/", function (req, res, next) {
-    res.send("Hello world!");
+    res.render("home");
 });
 
 
