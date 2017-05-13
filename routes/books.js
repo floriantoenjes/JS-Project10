@@ -1,6 +1,6 @@
 const express = require("express");
-const Book = require("../models").books;
-const Loan = require("../models").loans;
+const Book = require("../db.js").books;
+const Loan = require("../db.js").loans;
 
 const router = express.Router();
 
@@ -71,7 +71,6 @@ router.get("/", function (req, res, next) {
     } else {
 
         Book.findAll().then(function (books) {
-            console.log(books);
             res.render("all_books", {
                 books: books
             });

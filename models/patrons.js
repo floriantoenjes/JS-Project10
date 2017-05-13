@@ -17,7 +17,8 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
       }
     },
-      timestamps: false
+      timestamps: false,
+      underscored: true
   });
   return patrons;
 };

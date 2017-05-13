@@ -1,5 +1,5 @@
 const express = require("express");
-const Loan = require("../models").loans;
+const Loan = require("../db.js").loans;
 
 const router = express.Router();
 

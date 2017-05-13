@@ -1,5 +1,5 @@
 const express = require("express");
-const Patron = require("../models").patrons;
+const Patron = require("../db.js").patrons;
 
 const router = express.Router();
 
