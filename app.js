@@ -20,7 +20,8 @@ app.get("/", function (req, res, next) {
 
 app.get("/all_books", function (req, res, next) {
     if (req.query.filter === "overdue") {
-        res.send("Overdue");
+//        res.send("Overdue");
+        const books = [];
 
         Loan.findAll({
             where: {
@@ -30,13 +31,25 @@ app.get("/all_books", function (req, res, next) {
                 returned_on: null
             }
         }).then(function (loans) {
-            console.log(loans);
+            for (let loan of loans) {
+                console.log("Loan: ", loan.book_id);
+                Book.findOne({
+                    where: {
+                        id: loan.book_id
+                    }
+                }).then(function (book) {
+                    books.push(book);
+                    console.log("Books: ", books);
+                });
+            }
+            res.render("all_books", {books: books});
         });
 
     } else if (req.query.filter === "checked_out") {
         res.send("Checked out");
     } else {
         Book.findAll().then(function (books) {
+            console.log(books);
             res.render("all_books", {
                 books: books
             });
