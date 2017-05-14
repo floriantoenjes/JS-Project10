@@ -100,4 +100,8 @@ router.post("/new_loan", function (req, res, next) {
     });
 });
 
+router.get("/return_book", function (req, res, next) {
+    res.render("return_book");
+});
+
 module.exports = router;
