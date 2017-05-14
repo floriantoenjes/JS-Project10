@@ -83,6 +83,17 @@ router.get("/detail/:id", function (req, res, next) {
     });
 });
 
+router.post("/detail/:id", function (req, res, next) {
+    Book.update(req.body, {
+        where: {
+            id: req.params.id
+        }
+    }).then(function (book) {
+        console.log(book);
+        res.redirect("/books");
+    });
+});
+
 router.get("/new_book", function (req, res, next) {
     res.render("new_book");
 });
