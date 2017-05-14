@@ -59,24 +59,27 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/detail/:id", function (req, res, next) {
-    console.log(req.params.id);
-    Loan.findAll({
-        where: {
-            book_id: req.params.id
-        },
-        include: [
-            {
-                model: Book
+    Book.findById(req.params.id).then(function (book) {
+
+        Loan.findAll({
+            where: {
+                book_id: req.params.id
+            },
+            include: [
+                {
+                    model: Book
                 },
-            {
-                model: Patron
+                {
+                    model: Patron
             }
             ]
-    }).then(function (loans) {
-        console.log(loans);
-        res.render("book_detail", {
-            loans: loans
+        }).then(function (loans) {
+            res.render("book_detail", {
+                book: book,
+                loans: loans
+            });
         });
+
     });
 });
 
