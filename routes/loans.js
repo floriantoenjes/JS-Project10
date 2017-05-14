@@ -1,9 +1,9 @@
-const express = require("express");
-const Book = require("../db.js").books;
-const Loan = require("../db.js").loans;
-const Patron = require("../db.js").patrons;
-const sequelize = require("../models/index.js").sequelize;
-const moment = require("moment");
+const express = require("express"),
+      moment = require("moment"),
+      Book = require("../db.js").books,
+      Loan = require("../db.js").loans,
+      Patron = require("../db.js").patrons,
+      sequelize = require("../db.js").sequelize;
 
 const router = express.Router();
 
