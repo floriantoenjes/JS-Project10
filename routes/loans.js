@@ -103,6 +103,9 @@ router.post("/new_loan", function (req, res, next) {
 
 router.get("/return_book", function (req, res, next) {
     Loan.findOne({
+        where: {
+            id: req.query.loan_id
+        },
         include: [
             {
                 model: Book
@@ -120,5 +123,8 @@ router.get("/return_book", function (req, res, next) {
 
 });
 
+router.post("/return_book", function (req, res, next) {
+    res.send(req.body);
+});
 
 module.exports = router;
