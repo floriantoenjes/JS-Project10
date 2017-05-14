@@ -57,6 +57,10 @@ router.get("/", function (req, res, next) {
     }
 });
 
+router.get("/detail/:id", function (req, res, next) {
+    res.render("book_detail");
+});
+
 router.get("/new_book", function (req, res, next) {
     res.render("new_book");
 });
