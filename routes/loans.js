@@ -84,7 +84,7 @@ router.get("/new_loan", function (req, res, next) {
                 }
             ]
     }).then(function (loans) {
-        res.render("new_loan", {loans: results});
+        res.render("new_loan", {loans: loans});
     });
 
 });
