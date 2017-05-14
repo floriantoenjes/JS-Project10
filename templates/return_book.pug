@@ -19,19 +19,19 @@ html
     |
     p
       strong Book Title:
-      | Harry Potter and the Goblet of Fire
+      | #{loan.book.title}
     |
     p
       strong Loaned By:
-      | Andrew Chalkley
+      | #{loan.patron.first_name} #{loan.patron.last_name}
     |
     p
       strong Loaned On:
-      | 2015-12-11
+      | #{loan.loaned_on}
     |
     p
       strong Return By:
-      | 2015-12-18
+      | #{loan.return_by}
     |
     form
       p
