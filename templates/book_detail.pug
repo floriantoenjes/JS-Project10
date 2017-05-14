@@ -61,7 +61,7 @@ html
                 a(href='') #{loan.book.title}
               |
               td
-                a(href='patron_detail.html') #{loan.patron.first_name} #{loan.patron.last_name}
+                a(href='/patrons/detail/' + loan.patron.id) #{loan.patron.first_name} #{loan.patron.last_name}
               |
               td #{loan.loaned_on}
               |
