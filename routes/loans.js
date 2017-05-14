@@ -72,26 +72,10 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-    const loans = Loan.findAll({
-        where: {
-            $or: [{
-                    returned_on: {
-                        $ne: null
-                    }
-           },
-                {
-                    loaned_on: null
-                 }]
-        },
-        include: [
-            {
-                model: Book
-                }
-            ]
-    }).then(function (loans) {
-        console.log(loans);
+    Book.findAll().then(function (books) {
+        console.log(books);
         res.render("new_loan", {
-            loans: loans
+            books: books
         });
     });
 

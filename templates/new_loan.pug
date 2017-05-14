@@ -21,8 +21,8 @@ html
       p
         label(for='book_id') Book
         select#book_id
-          each loan in loans
-            option(value=loan.book_id) #{loan.book.title}
+          each book in books
+            option(value=book.book_id) #{book.title}
       |
       p
         label(for='patron_id') Patron
