@@ -124,7 +124,18 @@ router.get("/return_book", function (req, res, next) {
 });
 
 router.post("/return_book", function (req, res, next) {
-    res.send(req.body);
+    Loan.update(
+        {
+            returned_on: req.body.returned_on
+        }, {
+            where: {
+                id: req.query.loan_id
+            }
+        }
+    ).then(function (result) {
+        res.redirect("/loans");
+    });
+
 });
 
 module.exports = router;
