@@ -6,6 +6,7 @@ const Patron = require("../db.js").patrons;
 const router = express.Router();
 
 router.get("/", function (req, res, next) {
+
     if (req.query.filter === "overdue") {
 
         Loan.findAll({
@@ -50,6 +51,7 @@ router.get("/", function (req, res, next) {
                 loans: results
             });
         });
+
     } else {
 
         Loan.findAll({
