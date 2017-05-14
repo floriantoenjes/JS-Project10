@@ -37,7 +37,7 @@ html
         each patron in patrons
             tr
               td
-                a(href='patron_detail.html') #{patron.first_name} #{patron.last_name}
+                a(href='/patrons/detail/' + patron.id) #{patron.first_name} #{patron.last_name}
               |
               td #{patron.address}
               |
