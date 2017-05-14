@@ -46,6 +46,12 @@ router.post("/detail/:id", function (req, res, next) {
     }).then(function (patron) {
         console.log(patron);
         res.redirect("/patrons");
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError") {
+            res.redirect("/patrons/detail/" + req.params.id);
+        } else {
+            throw err;
+        }
     });
 });
 
