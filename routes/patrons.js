@@ -50,13 +50,22 @@ router.post("/detail/:id", function (req, res, next) {
 });
 
 router.get("/new_patron", function (req, res, next) {
-    res.render("new_patron");
+    res.render("new_patron", {patron: {}});
 });
 
 router.post("/new_patron", function (req, res, next) {
     Patron.create(req.body).then(function (patron) {
         res.redirect("/patrons");
-    });
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
+            res.render("new_patron", {
+                patron: Patron.build(req.body),
+                errors: err.errors
+            });
+        } else {
+            throw err;
+        }
+    });;
 });
 
 module.exports = router;

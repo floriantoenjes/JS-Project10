@@ -48,7 +48,7 @@ module.exports = function (sequelize, DataTypes) {
         zip_code: {
             type: DataTypes.INTEGER,
             validate: {
-                notEmpty: {
+                isInt: {
                     msg: "Zip code is required"
                 }
             }
