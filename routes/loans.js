@@ -88,7 +88,7 @@ router.get("/new_loan", function (req, res, next) {
             const filteredBooks = books.filter((book) => {
                 if (book.loans.length === 0) {
                     return true;
-                } else if (book.loans.every((loan) => {
+                } else if (book.loans.every( (loan) => {
                     return loan.returned_on;
                 })) {
                     return true;
