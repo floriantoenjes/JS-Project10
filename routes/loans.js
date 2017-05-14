@@ -98,7 +98,18 @@ router.get("/new_loan", function (req, res, next) {
 router.post("/new_loan", function (req, res, next) {
     Loan.create(req.body).then(function (loan) {
         res.redirect("/loans");
-    });
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
+            res.render("new_loan", {
+                loan: Loan.build(req.body),
+                books: {},
+                patrons: {},
+                errors: err.errors
+            });
+        } else {
+            throw err;
+        }
+    });;
 });
 
 router.get("/return_book", function (req, res, next) {
