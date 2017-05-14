@@ -15,4 +15,10 @@ router.get("/new_patron", function (req, res, next) {
     res.render("new_patron");
 });
 
+router.post("/new_patron", function (req, res, next) {
+    Patron.create(req.body).then(function (patron) {
+        res.redirect("/patrons");
+    });
+});
+
 module.exports = router;
