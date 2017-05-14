@@ -102,6 +102,11 @@ router.post("/new_loan", function (req, res, next) {
 });
 
 router.get("/return_book", function (req, res, next) {
+    Loan.findOne({
+
+    }).then(function (loan) {
+        console.log(loan);
+    });
     res.render("return_book", {
         returned_on: moment().format("YYYY-MM-DD")
     });
