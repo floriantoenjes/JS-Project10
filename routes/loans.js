@@ -74,8 +74,27 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-    Book.findAll().then(function (books) {
+    Book.findAll({
+        include: [
+                {
+                    model: Loan
+                },
+            ]
+    }).then(function (books) {
         console.log(books);
+
+        books = books.filter((book) => {
+            if (book.loans.length === 0) {
+                return book;
+            } else {
+                for (loan of book.loans) {
+                    if (loan.returned_on) {
+                        return book;
+                    }
+                }
+            }
+        });
+
         res.render("new_loan", {
             books: books
         });
