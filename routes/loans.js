@@ -2,6 +2,7 @@ const express = require("express");
 const Book = require("../db.js").books;
 const Loan = require("../db.js").loans;
 const Patron = require("../db.js").patrons;
+const sequelize = require("../models/index.js").sequelize;
 
 const router = express.Router();
 
@@ -74,16 +75,11 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-    Book.findAll({
-        include: [
-            {
-                model: Loan
-                },
-            ]
-    }).then(function (books) {
-        console.log(books);
+   sequelize.query("SELECT * FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;",
+                   { type: sequelize.QueryTypes.SELECT})
 
-        books = filterBooksAvailable(books);
+  .then(function (books) {
+        console.log(books);
 
         Patron.findAll().then(function (patrons) {
             res.render("new_loan", {
@@ -96,20 +92,5 @@ router.get("/new_loan", function (req, res, next) {
     });
 
 });
-
-
-function filterBooksAvailable(books) {
-    return books.filter((book) => {
-            if (book.loans.length === 0) {
-                return book;
-            } else {
-                for (loan of book.loans) {
-                    if (loan.returned_on) {
-                        return book;
-                    }
-                }
-            }
-        });
-}
 
 module.exports = router;
