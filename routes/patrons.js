@@ -11,4 +11,8 @@ router.get("/", function (req, res, next) {
     });
 });
 
+router.get("/new_patron", function (req, res, next) {
+    res.render("new_patron");
+});
+
 module.exports = router;
