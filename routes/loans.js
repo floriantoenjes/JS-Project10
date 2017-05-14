@@ -76,11 +76,10 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-   sequelize.query("SELECT * FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;",
+   sequelize.query("SELECT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;",
                    { type: sequelize.QueryTypes.SELECT})
 
   .then(function (books) {
-        console.log(books);
 
         Patron.findAll().then(function (patrons) {
             res.render("new_loan", {
@@ -93,6 +92,14 @@ router.get("/new_loan", function (req, res, next) {
 
     });
 
+});
+
+router.post("/new_loan", function (req, res, next) {
+    console.log(req.body);
+//    Loan.create(req.body).then(function (loan) {
+//        res.redirect("/loans");
+//    });
+    res.send("Hello");
 });
 
 module.exports = router;
