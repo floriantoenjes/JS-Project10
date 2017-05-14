@@ -85,7 +85,8 @@ router.get("/new_loan", function (req, res, next) {
             res.render("new_loan", {
                 books: books,
                 patrons: patrons,
-                loaned_on: Date()
+                loaned_on: Date(),
+                return_by: Date()
             });
         });
 
