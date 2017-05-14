@@ -47,10 +47,10 @@ html
         each loan in loans
             tr
               td
-                a(href='book_detail.html') #{loan.book_title}
+                a(href='book_detail.html') #{loan.book.title}
               |
               td
-                a(href='patron_detail.html') #{loan.patron_first_name} #{loan.patron_last_name}
+                a(href='patron_detail.html') #{loan.patron.first_name} #{loan.patron.last_name}
               |
               td #{loan.loaned_on}
               |

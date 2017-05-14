@@ -23,19 +23,8 @@ router.get("/", function (req, res, next) {
             ]
         }).then(function (results) {
             const loans = [];
-            for (let result of results) {
-                const loan = {
-                    book_title: result.book.title,
-                    patron_first_name: result.patron.first_name,
-                    patron_last_name: result.patron.last_name,
-                    loaned_on: result.loaned_on,
-                    return_by: result.return_by,
-                    returned_on: result.returned_on
-                };
-                loans.push(loan);
-            }
             res.render("loans", {
-                loans: loans
+                loans: results
             });
         });
     }
