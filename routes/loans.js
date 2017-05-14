@@ -100,11 +100,21 @@ router.post("/new_loan", function (req, res, next) {
         res.redirect("/loans");
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
-            res.render("new_loan", {
-                loan: Loan.build(req.body),
-                books: {},
-                patrons: {},
-                errors: err.errors
+            sequelize.query("SELECT DISTINCT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;", {
+                type: sequelize.QueryTypes.SELECT
+            })
+
+            .then(function (books) {
+                Patron.findAll().then(function (patrons) {
+                    res.render("new_loan", {
+                        loan: Loan.build(req.body),
+                        books: books,
+                        patrons: patrons,
+                        loaned_on: moment().format("YYYY-MM-DD"),
+                        return_by: moment().add(7, "days").format("YYYY-MM-DD"),
+                        errors: err.errors
+                    });
+                });
             });
         } else {
             throw err;
@@ -135,15 +145,13 @@ router.get("/return_book", function (req, res, next) {
 });
 
 router.post("/return_book", function (req, res, next) {
-    Loan.update(
-        {
-            returned_on: req.body.returned_on
-        }, {
-            where: {
-                id: req.query.loan_id
-            }
+    Loan.update({
+        returned_on: req.body.returned_on
+    }, {
+        where: {
+            id: req.query.loan_id
         }
-    ).then(function (result) {
+    }).then(function (result) {
         res.redirect("/loans");
     });
 
