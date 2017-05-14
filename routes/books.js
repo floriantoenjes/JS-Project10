@@ -101,6 +101,12 @@ router.get("/new_book", function (req, res, next) {
 router.post("/new_book", function (req, res, next) {
     Book.create(req.body).then(function (book) {
         res.redirect("/books")
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError") {
+            res.render("new_book");
+        } else {
+            throw err;
+        }
     });
 });
 
