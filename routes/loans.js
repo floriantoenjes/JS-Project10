@@ -77,21 +77,33 @@ router.get("/", function (req, res, next) {
 
 router.get("/new_loan", function (req, res, next) {
 
-    sequelize.query("SELECT DISTINCT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;", {
-        type: sequelize.QueryTypes.SELECT
-    })
-
-    .then(function (books) {
-        Patron.findAll().then(function (patrons) {
-            res.render("new_loan", {
-                books: books,
-                patrons: patrons,
-                loaned_on: moment().format("YYYY-MM-DD"),
-                return_by: moment().add(7, "days").format("YYYY-MM-DD")
+    Book.findAll({
+            include: [
+                {
+                    model: Loan
+                }
+            ]
+        })
+        .then(function (books) {
+            const filteredBooks = books.filter((book) => {
+                if (book.loans.length === 0) {
+                    return true;
+                } else if (book.loans.every((loan) => {
+                    return loan.returned_on;
+                })) {
+                    return true;
+                }
             });
-        });
+            Patron.findAll().then(function (patrons) {
+                res.render("new_loan", {
+                    books: filteredBooks,
+                    patrons: patrons,
+                    loaned_on: moment().format("YYYY-MM-DD"),
+                    return_by: moment().add(7, "days").format("YYYY-MM-DD")
+                });
+            });
 
-    });
+        });
 
 });
 
