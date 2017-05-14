@@ -1,6 +1,7 @@
 const express = require("express");
 const Book = require("../db.js").books;
 const Loan = require("../db.js").loans;
+const Patron = require("../db.js").patrons;
 
 const router = express.Router();
 
@@ -59,8 +60,23 @@ router.get("/", function (req, res, next) {
 
 router.get("/detail/:id", function (req, res, next) {
     console.log(req.params.id);
-    Book.findById(req.params.id).then(function (book) {
-        res.render("book_detail", {book: book});
+    Loan.findAll({
+        where: {
+            book_id: req.params.id
+        },
+        include: [
+            {
+                model: Book
+                },
+            {
+                model: Patron
+            }
+            ]
+    }).then(function (loans) {
+        console.log(loans);
+        res.render("book_detail", {
+            loans: loans
+        });
     });
 });
 
