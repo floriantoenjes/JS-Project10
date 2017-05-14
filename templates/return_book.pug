@@ -33,7 +33,7 @@ html
       strong Return By:
       | #{loan.return_by}
     |
-    form
+    form(action="", method="POST")
       p
         label(for='returned_on') Returned on:
         input#returned_on(type='text', value=returned_on)
