@@ -37,8 +37,22 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        library_id: DataTypes.STRING,
-        zip_code: DataTypes.INTEGER
+        library_id: {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "Library Id is required"
+                }
+            }
+        },
+        zip_code: {
+            type: DataTypes.INTEGER,
+            validate: {
+                notEmpty: {
+                    msg: "Zip code is required"
+                }
+            }
+        },
     }, {
         classMethods: {
             associate: function (models) {
