@@ -38,6 +38,17 @@ router.get("/detail/:id", function (req, res, next) {
     });
 });
 
+router.post("/detail/:id", function (req, res, next) {
+    Patron.update(req.body, {
+        where: {
+            id: req.params.id
+        }
+    }).then(function (patron) {
+        console.log(patron);
+        res.redirect("/patrons");
+    });
+});
+
 router.get("/new_patron", function (req, res, next) {
     res.render("new_patron");
 });
