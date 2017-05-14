@@ -7,15 +7,15 @@ html
   nav
     ul
       li
-        a(href='all_books.html') Books
+        a(href='/books') Books
       |
       li
-        a(href='all_patrons.html') Patrons
+        a(href='/patrons') Patrons
       |
       li
-        a(href='all_loans.html') Loans
+        a(href='/loans') Loans
   body
-    h1 Patron: Andrew Chalkley
+    h1 Patron: #{patron.first_name} #{patron.last_name}
     |
     form
       p
@@ -66,10 +66,10 @@ html
         each loan in loans
             tr
               td
-                a(href='book_detail.html') #{loan.book.title}
+                a(href='/books/detail/' + loan.book.id) #{loan.book.title}
               |
               td
-                a(href='') #{patron.first_name} #{patron.last_name}
+                a(href='') #{loan.patron.first_name} #{loan.patron.last_name}
               |
               td #{loan.loaned_on}
               |
