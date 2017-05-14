@@ -83,7 +83,23 @@ router.get("/new_loan", function (req, res, next) {
     }).then(function (books) {
         console.log(books);
 
-        books = books.filter((book) => {
+        books = filterBooksAvailable(books);
+
+        Patron.findAll().then(function (patrons) {
+            res.render("new_loan", {
+                books: books,
+                patrons: patrons,
+                loaned_on: Date()
+            });
+        });
+
+    });
+
+});
+
+
+function filterBooksAvailable(books) {
+    return books.filter((book) => {
             if (book.loans.length === 0) {
                 return book;
             } else {
@@ -94,16 +110,6 @@ router.get("/new_loan", function (req, res, next) {
                 }
             }
         });
-
-        Patron.findAll().then(function (patrons) {
-            res.render("new_loan", {
-                books: books,
-                patrons: patrons
-            });
-        });
-
-    });
-
-});
+}
 
 module.exports = router;
