@@ -72,7 +72,21 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-    res.render("new_loan");
+    const loans = Loan.findAll({
+        where: {
+            returned_on: {
+                $ne: null
+            }
+        },
+        include: [
+            {
+                model: Book
+                }
+            ]
+    }).then(function (loans) {
+        res.render("new_loan", {loans: results});
+    });
+
 });
 
 module.exports = router;
