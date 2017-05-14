@@ -21,8 +21,22 @@ module.exports = function (sequelize, DataTypes) {
                 }
             }
         },
-        address: DataTypes.STRING,
-        email: DataTypes.STRING,
+        address:  {
+            type: DataTypes.STRING,
+            validate: {
+                notEmpty: {
+                    msg: "Address is required"
+                }
+            }
+        },
+        email:   {
+            type: DataTypes.STRING,
+            validate: {
+                isEmail: {
+                    msg: "Valid email is required"
+                }
+            }
+        },
         library_id: DataTypes.STRING,
         zip_code: DataTypes.INTEGER
     }, {
