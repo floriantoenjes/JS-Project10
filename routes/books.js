@@ -95,7 +95,7 @@ router.post("/detail/:id", function (req, res, next) {
 });
 
 router.get("/new_book", function (req, res, next) {
-    res.render("new_book");
+    res.render("new_book", {book: {}});
 });
 
 router.post("/new_book", function (req, res, next) {
@@ -103,7 +103,10 @@ router.post("/new_book", function (req, res, next) {
         res.redirect("/books")
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
-            res.render("new_book");
+            res.render("new_book", {
+                book: Book.build(req.body),
+                errors: err.errors
+            });
         } else {
             throw err;
         }
