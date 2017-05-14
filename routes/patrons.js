@@ -18,7 +18,7 @@ router.get("/detail/:id", function (req, res, next) {
 
         Loan.findAll({
             where: {
-                book_id: req.params.id
+                patron_id: req.params.id
             },
             include: [
                 {
