@@ -95,7 +95,6 @@ router.get("/new_loan", function (req, res, next) {
 });
 
 router.post("/new_loan", function (req, res, next) {
-    console.log(req.body);
     Loan.create(req.body).then(function (loan) {
         res.redirect("/loans");
     });
