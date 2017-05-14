@@ -27,10 +27,8 @@ html
       p
         label(for='patron_id') Patron
         select#patron_id
-          option(value='1') Andrew Chalkley
-          option(value='2') Dave McFarland
-          option(value='3') Alena Holligan
-          option(value='4') Michael Poley
+          each patron in patrons
+            option(value=patron.id) #{patron.first_name} #{patron.last_name}
       |
       p
         label(for='loaned_on') Loaned on:

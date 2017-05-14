@@ -76,8 +76,8 @@ router.get("/", function (req, res, next) {
 router.get("/new_loan", function (req, res, next) {
     Book.findAll({
         include: [
-                {
-                    model: Loan
+            {
+                model: Loan
                 },
             ]
     }).then(function (books) {
@@ -95,9 +95,13 @@ router.get("/new_loan", function (req, res, next) {
             }
         });
 
-        res.render("new_loan", {
-            books: books
+        Patron.findAll().then(function (patrons) {
+            res.render("new_loan", {
+                books: books,
+                patrons: patrons
+            });
         });
+
     });
 
 });
