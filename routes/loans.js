@@ -76,7 +76,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-    sequelize.query("SELECT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;", {
+    sequelize.query("SELECT DISTINCT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;", {
         type: sequelize.QueryTypes.SELECT
     })
 
