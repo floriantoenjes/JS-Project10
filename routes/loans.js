@@ -1,9 +1,9 @@
 const express = require("express"),
-      moment = require("moment"),
-      Book = require("../db.js").books,
-      Loan = require("../db.js").loans,
-      Patron = require("../db.js").patrons,
-      sequelize = require("../db.js").sequelize;
+    moment = require("moment"),
+    Book = require("../db.js").books,
+    Loan = require("../db.js").loans,
+    Patron = require("../db.js").patrons,
+    sequelize = require("../db.js").sequelize;
 
 const router = express.Router();
 
@@ -76,10 +76,11 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/new_loan", function (req, res, next) {
-   sequelize.query("SELECT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;",
-                   { type: sequelize.QueryTypes.SELECT})
+    sequelize.query("SELECT books.id, books.title FROM books LEFT OUTER JOIN loans on books.id = loans.book_id WHERE returned_on IS NOT NULL OR loans.id IS NULL;", {
+        type: sequelize.QueryTypes.SELECT
+    })
 
-  .then(function (books) {
+    .then(function (books) {
 
         Patron.findAll().then(function (patrons) {
             res.render("new_loan", {
@@ -101,7 +102,9 @@ router.post("/new_loan", function (req, res, next) {
 });
 
 router.get("/return_book", function (req, res, next) {
-    res.render("return_book");
+    res.render("return_book", {
+        returned_on: moment().format("YYYY-MM-DD")
+    });
 });
 
 module.exports = router;
