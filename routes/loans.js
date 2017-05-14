@@ -85,7 +85,7 @@ router.get("/new_loan", function (req, res, next) {
             ]
         })
         .then(function (books) {
-            const filteredBooks = books.filter((book) => {
+            const filteredBooks = books.filter( (book) => {
                 if (book.loans.length === 0) {
                     return true;
                 } else if (book.loans.every( (loan) => {
