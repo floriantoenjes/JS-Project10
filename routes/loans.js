@@ -3,6 +3,7 @@ const Book = require("../db.js").books;
 const Loan = require("../db.js").loans;
 const Patron = require("../db.js").patrons;
 const sequelize = require("../models/index.js").sequelize;
+const moment = require("moment");
 
 const router = express.Router();
 
@@ -85,8 +86,8 @@ router.get("/new_loan", function (req, res, next) {
             res.render("new_loan", {
                 books: books,
                 patrons: patrons,
-                loaned_on: Date(),
-                return_by: Date()
+                loaned_on: moment().format("YYYY-MM-DD"),
+                return_by: moment().add(7, "days").format("YYYY-MM-DD")
             });
         });
 
