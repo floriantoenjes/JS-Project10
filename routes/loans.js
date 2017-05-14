@@ -32,4 +32,8 @@ router.get("/", function (req, res, next) {
     });
 });
 
+router.get("/new_loan", function (req, res, next) {
+    res.render("new_loan");
+});
+
 module.exports = router;
