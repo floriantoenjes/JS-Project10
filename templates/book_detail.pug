@@ -69,5 +69,6 @@ html
               |
               td #{loan.returned_on}
               |
-              td
-                a.button(href='return_book.html') Return Book
+              if !loan.returned_on
+                  td
+                    a.button(href='/loans/return_book?loan_id=' + loan.id) Return Book
