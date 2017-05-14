@@ -103,13 +103,21 @@ router.post("/new_loan", function (req, res, next) {
 
 router.get("/return_book", function (req, res, next) {
     Loan.findOne({
-
+        include: [
+            {
+                model: Book
+                },
+            {
+                model: Patron
+            }
+            ]
     }).then(function (loan) {
-        console.log(loan);
+        res.render("return_book", {
+            loan: loan,
+            returned_on: moment().format("YYYY-MM-DD")
+        });
     });
-    res.render("return_book", {
-        returned_on: moment().format("YYYY-MM-DD")
-    });
+
 });
 
 module.exports = router;
