@@ -91,18 +91,26 @@ router.post("/detail/:id", function (req, res, next) {
     }).then(function (book) {
         console.log(book);
         res.redirect("/books");
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError") {
+            res.redirect("/books/detail/" + req.params.id);
+        } else {
+            throw err;
+        }
     });
 });
 
 router.get("/new_book", function (req, res, next) {
-    res.render("new_book", {book: {}});
+    res.render("new_book", {
+        book: {}
+    });
 });
 
 router.post("/new_book", function (req, res, next) {
     Book.create(req.body).then(function (book) {
         res.redirect("/books")
     }).catch(function (err) {
-        if (err.name === "SequelizeValidationError") {
+        if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
             res.render("new_book", {
                 book: Book.build(req.body),
                 errors: err.errors
