@@ -21,7 +21,7 @@ router.get("/", function (req, res, next) {
                     model: Book
                 }
             ]
-        }).then(renderResults);
+        }).then(renderBooks);
 
     } else if (req.query.filter === "checked_out") {
 
@@ -34,7 +34,7 @@ router.get("/", function (req, res, next) {
                     model: Book
                 }
             ]
-        }).then(renderResults);
+        }).then(renderBooks);
 
     } else {
 
@@ -46,7 +46,7 @@ router.get("/", function (req, res, next) {
 
     }
 
-    function renderResults(results) {
+    function renderBooks(results) {
         const books = [];
         for (let result of results) {
             books.push(result.book);

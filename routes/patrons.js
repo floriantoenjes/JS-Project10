@@ -48,7 +48,11 @@ router.post("/detail/:id", function (req, res, next) {
         res.redirect("/patrons");
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
-            res.redirect("/patrons/detail/" + req.params.id);
+            res.render("patron_detail", {
+                patron: Patron.build(req.body),
+                loans: {},
+                errors: err.errors
+            })
         } else {
             throw err;
         }
