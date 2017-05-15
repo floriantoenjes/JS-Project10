@@ -71,7 +71,7 @@ router.get("/detail/:id", function (req, res, next) {
                 },
                 {
                     model: Patron
-            }
+                }
             ]
         }).then(function (loans) {
             res.render("book_detail", {
