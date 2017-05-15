@@ -117,8 +117,6 @@ router.post("/detail/:id", function (req, res, next) {
                 });
 
             });
-
-
         } else {
             throw err;
         }
