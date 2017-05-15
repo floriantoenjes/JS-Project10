@@ -81,7 +81,7 @@ router.post("/detail/:id", function (req, res, next) {
 
         if (err.name === "SequelizeValidationError") {
 
-            getBookDetails(req.params.id).then(function {
+            getBookDetails(req.params.id).then(function(book, loans) {
                 res.render("book_detail", {
                     book: Book.build(req.body),
                     loans: loans,
@@ -132,7 +132,7 @@ function getBookDetails(bookId) {
                         {
                             model: Patron
                             }
-                        ]
+                    ]
                 }).then(function (loans) {
                     callback(book, loans);
                 });
