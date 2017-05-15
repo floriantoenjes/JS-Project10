@@ -60,30 +60,15 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/detail/:id", function (req, res, next) {
-    Book.findById(req.params.id).then(function (book) {
 
-        Loan.findAll({
-            where: {
-                book_id: req.params.id
-            },
-            include: [
-                {
-                    model: Book
-                },
-                {
-                    model: Patron
-                }
-            ]
-        }).then(function (loans) {
-            res.render("book_detail", {
-                book: book,
-                loans: loans
-            });
+    getBookDetails(req.params.id, function (book, loans) {
+        res.render("book_detail", {
+            book: book,
+            loans: loans
         });
-
     });
-});
 
+});
 
 router.post("/detail/:id", function (req, res, next) {
     Book.update(req.body, {
@@ -95,34 +80,41 @@ router.post("/detail/:id", function (req, res, next) {
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
 
-            Book.findById(req.params.id).then(function (book) {
-
-                Loan.findAll({
-                    where: {
-                        book_id: req.params.id
-                    },
-                    include: [
-                        {
-                            model: Book
-                        },
-                        {
-                            model: Patron
-                        }
-                    ]
-                }).then(function (loans) {
-                    res.render("book_detail", {
-                        book: Book.build(req.body),
-                        loans: loans,
-                        errors: err.errors
-                    });
+            getBookDetails(req.params.id, function (book, loans) {
+                res.render("book_detail", {
+                    book: Book.build(req.body),
+                    loans: loans,
+                    errors: err.errors
                 });
-
             });
+
         } else {
             throw err;
         }
     });
 });
+
+function getBookDetails(id, callback) {
+
+    Book.findById(id).then(function (book) {
+        Loan.findAll({
+            where: {
+                book_id: id
+            },
+            include: [
+                {
+                    model: Book
+                },
+                {
+                    model: Patron
+                }
+            ]
+        }).then(function (loans) {
+            callback(book, loans);
+        });
+    });
+
+}
 
 router.get("/new_book", function (req, res, next) {
     res.render("new_book", {
