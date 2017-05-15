@@ -118,19 +118,8 @@ router.post("/new_loan", function (req, res, next) {
 });
 
 router.get("/return_book", function (req, res, next) {
-    Loan.findOne({
-        where: {
-            id: req.query.loan_id
-        },
-        include: [
-            {
-                model: Book
-                },
-            {
-                model: Patron
-            }
-        ]
-    }).then(function (loan) {
+
+    getLoan(req.query.loan_id).then(function (loan) {
         res.render("return_book", {
             loan: loan,
             returned_on: moment().format("YYYY-MM-DD")
@@ -151,27 +140,13 @@ router.post("/return_book", function (req, res, next) {
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
 
-            Loan.findOne({
-                where: {
-                    id: req.query.loan_id
-                },
-                include: [
-                    {
-                        model: Book
-                },
-                    {
-                        model: Patron
-            }
-        ]
-            }).then(function (loan) {
+            getLoan(req.query.loan_id).then(function (loan) {
                 res.render("return_book", {
                     loan: loan,
                     returned_on: moment().format("YYYY-MM-DD"),
                     errors: err.errors
                 });
-            });
-
-
+            })
         }
     });
 
@@ -190,6 +165,26 @@ SELECT books.id, books.title
 FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
 WHERE loans.id IS NULL;`, {
                 type: sequelize.QueryTypes.SELECT
+            }).then(callback);
+        }
+    }
+}
+
+function getLoan(loanId) {
+    return {
+        then: function (callback) {
+            Loan.findOne({
+                where: {
+                    id: loanId
+                },
+                include: [
+                    {
+                        model: Book
+                    },
+                    {
+                        model: Patron
+                    }
+                ]
             }).then(callback);
         }
     }
