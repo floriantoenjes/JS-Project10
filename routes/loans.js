@@ -89,6 +89,9 @@ router.get("/new_loan", function (req, res, next) {
 });
 
 router.post("/new_loan", function (req, res, next) {
+    if (req.body.return_by.trim() === "") {
+        req.body.return_by = moment().add(7, "days").format("YYYY-MM-DD");
+    }
     Loan.create(req.body).then(function (loan) {
         res.redirect("/loans");
     }).catch(function (err) {
