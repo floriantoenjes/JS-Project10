@@ -30,7 +30,6 @@ router.post("/detail/:id", function (req, res, next) {
             id: req.params.id
         }
     }).then(function (patron) {
-        console.log(patron);
         res.redirect("/patrons");
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
@@ -57,6 +56,7 @@ router.get("/new_patron", function (req, res, next) {
 router.post("/new_patron", function (req, res, next) {
     Patron.create(req.body).then(function (patron) {
         res.redirect("/patrons");
+
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
             res.render("new_patron", {
@@ -80,11 +80,11 @@ function getPatronDetails(patronId) {
                     include: [
                         {
                             model: Book
-                },
+                        },
                         {
                             model: Patron
-            }
-            ]
+                        }
+                    ]
                 }).then(function (loans) {
                     callback(patron, loans);
                 });
