@@ -74,18 +74,7 @@ router.get("/", function (req, res, next) {
 
 router.get("/new_loan", function (req, res, next) {
 
-    sequelize.query(`SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-GROUP BY loans.book_id
-HAVING SUM(CASE WHEN loans.returned_on IS NOT NULL THEN 0 ELSE 1 END) < 1
-UNION
-SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-WHERE loans.id IS NULL;`, {
-        type: sequelize.QueryTypes.SELECT
-    })
-
-    .then(function (books) {
+    getAvailableBooks().then(function (books) {
         Patron.findAll().then(function (patrons) {
             res.render("new_loan", {
                 books: books,
@@ -105,18 +94,7 @@ router.post("/new_loan", function (req, res, next) {
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
 
-            sequelize.query(`SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-GROUP BY loans.book_id
-HAVING SUM(CASE WHEN loans.returned_on IS NOT NULL THEN 0 ELSE 1 END) < 1
-UNION
-SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-WHERE loans.id IS NULL;`, {
-                type: sequelize.QueryTypes.SELECT
-            })
-
-            .then(function (books) {
+            getAvailableBooks().then(function (books) {
                 Patron.findAll().then(function (patrons) {
                     res.render("new_loan", {
                         loan: Loan.build(req.body),
@@ -133,6 +111,23 @@ WHERE loans.id IS NULL;`, {
         }
     });;
 });
+
+function getAvailableBooks() {
+    return {
+        then: function (callback) {
+            sequelize.query(`SELECT books.id, books.title
+FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
+GROUP BY loans.book_id
+HAVING SUM(CASE WHEN loans.returned_on IS NOT NULL THEN 0 ELSE 1 END) < 1
+UNION
+SELECT books.id, books.title
+FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
+WHERE loans.id IS NULL;`, {
+                type: sequelize.QueryTypes.SELECT
+            }).then(callback);
+        }
+    }
+}
 
 router.get("/return_book", function (req, res, next) {
     Loan.findOne({
