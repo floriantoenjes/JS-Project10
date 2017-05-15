@@ -46,6 +46,7 @@ router.get("/", function (req, res, next) {
 
     }
 
+
     function renderBooksFromLoans(loans) {
         const books = [];
         for (let loan of loans) {
@@ -83,13 +84,13 @@ router.get("/detail/:id", function (req, res, next) {
     });
 });
 
+
 router.post("/detail/:id", function (req, res, next) {
     Book.update(req.body, {
         where: {
             id: req.params.id
         }
     }).then(function (book) {
-        console.log(book);
         res.redirect("/books");
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
