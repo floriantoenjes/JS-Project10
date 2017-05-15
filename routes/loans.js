@@ -26,10 +26,9 @@ router.get("/", function (req, res, next) {
                     model: Patron
             }
             ]
-        }).then(function (results) {
-            const loans = [];
+        }).then(function (loans) {
             res.render("loans", {
-                loans: results
+                loans: loans
             });
         });
 
@@ -45,12 +44,11 @@ router.get("/", function (req, res, next) {
                 },
                 {
                     model: Patron
-            }
+                }
             ]
-        }).then(function (results) {
-            const loans = [];
+        }).then(function (loans) {
             res.render("loans", {
-                loans: results
+                loans: loans
             });
         });
 
@@ -65,10 +63,9 @@ router.get("/", function (req, res, next) {
                     model: Patron
             }
             ]
-        }).then(function (results) {
-            const loans = [];
+        }).then(function (loans) {
             res.render("loans", {
-                loans: results
+                loans: loans
             });
         });
     }
