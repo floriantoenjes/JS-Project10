@@ -14,8 +14,8 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/detail/:id", function (req, res, next) {
-    Patron.findById(req.params.id).then(function (patron) {
 
+    Patron.findById(req.params.id).then(function (patron) {
         Loan.findAll({
             where: {
                 patron_id: req.params.id
@@ -39,6 +39,7 @@ router.get("/detail/:id", function (req, res, next) {
 });
 
 router.post("/detail/:id", function (req, res, next) {
+
     Patron.update(req.body, {
         where: {
             id: req.params.id
@@ -50,7 +51,6 @@ router.post("/detail/:id", function (req, res, next) {
         if (err.name === "SequelizeValidationError") {
 
             Patron.findById(req.params.id).then(function (patron) {
-
                 Loan.findAll({
                     where: {
                         patron_id: req.params.id
@@ -70,7 +70,6 @@ router.post("/detail/:id", function (req, res, next) {
                         errors: err.errors
                     })
                 });
-
             });
         } else {
             throw err;
