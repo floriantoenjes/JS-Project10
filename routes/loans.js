@@ -146,7 +146,7 @@ router.get("/return_book", function (req, res, next) {
             {
                 model: Patron
             }
-            ]
+        ]
     }).then(function (loan) {
         res.render("return_book", {
             loan: loan,
