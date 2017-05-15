@@ -9,12 +9,7 @@ html
     h1 Book: #{book.title}
     |
     form(action="", method="POST")
-      if errors
-          h2.error Oooops!
-          |
-          each error in errors
-              ul.error
-                li #{error.message}
+      include ./partials/_error.pug
       p
         label(for='title') Title
         input#title(type='text', value=book.title, name="title")

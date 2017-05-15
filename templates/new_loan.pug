@@ -9,12 +9,7 @@ html
     h1 New Loan
     |
     form(action="" method="POST")
-      if errors
-          h2.error Oooops!
-          |
-          each error in errors
-              ul.error
-                li #{error.message}
+      include ./partials/_error.pug
       p
         label(for='book_id') Book
         select(id="book_id", name="book_id")

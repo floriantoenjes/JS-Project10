@@ -9,12 +9,7 @@ html
     h1 Patron: #{patron.first_name} #{patron.last_name}
     |
     form(action="", method="POST")
-      if errors
-          h2.error Oooops!
-          |
-          each error in errors
-              ul.error
-                li #{error.message}
+      include ./partials/_error.pug
       p
         label(for='first_name') First Name
         input#first_name(type='text', value=patron.first_name, name="first_name")
