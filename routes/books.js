@@ -103,11 +103,11 @@ router.post("/detail/:id", function (req, res, next) {
                     include: [
                         {
                             model: Book
-                },
+                        },
                         {
                             model: Patron
-            }
-            ]
+                        }
+                    ]
                 }).then(function (loans) {
                     res.render("book_detail", {
                         book: Book.build(req.body),
