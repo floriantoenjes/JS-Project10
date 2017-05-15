@@ -1,9 +1,9 @@
 const express = require("express"),
-      moment = require("moment"),
-      Book = require("../db.js").books,
-      Loan = require("../db.js").loans,
-      Patron = require("../db.js").patrons,
-      sequelize = require("../db.js").sequelize;
+    moment = require("moment"),
+    Book = require("../db.js").books,
+    Loan = require("../db.js").loans,
+    Patron = require("../db.js").patrons,
+    sequelize = require("../db.js").sequelize;
 
 const router = express.Router();
 
@@ -114,7 +114,7 @@ router.post("/new_loan", function (req, res, next) {
         } else {
             throw err;
         }
-    });;
+    });
 });
 
 router.get("/return_book", function (req, res, next) {
@@ -148,6 +148,31 @@ router.post("/return_book", function (req, res, next) {
         }
     }).then(function (result) {
         res.redirect("/loans");
+    }).catch(function (err) {
+        if (err.name === "SequelizeValidationError") {
+
+            Loan.findOne({
+                where: {
+                    id: req.query.loan_id
+                },
+                include: [
+                    {
+                        model: Book
+                },
+                    {
+                        model: Patron
+            }
+        ]
+            }).then(function (loan) {
+                res.render("return_book", {
+                    loan: loan,
+                    returned_on: moment().format("YYYY-MM-DD"),
+                    errors: err.errors
+                });
+            });
+
+
+        }
     });
 
 });
