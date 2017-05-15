@@ -61,7 +61,7 @@ router.get("/", function (req, res, next) {
                 },
                 {
                     model: Patron
-            }
+                }
             ]
         }).then(function (loans) {
             res.render("loans", {
@@ -92,10 +92,12 @@ router.post("/new_loan", function (req, res, next) {
     Loan.create(req.body).then(function (loan) {
         res.redirect("/loans");
     }).catch(function (err) {
+
         if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
 
             getAvailableBooks().then(function (books) {
                 Patron.findAll().then(function (patrons) {
+
                     res.render("new_loan", {
                         loan: Loan.build(req.body),
                         books: books,
@@ -111,23 +113,6 @@ router.post("/new_loan", function (req, res, next) {
         }
     });;
 });
-
-function getAvailableBooks() {
-    return {
-        then: function (callback) {
-            sequelize.query(`SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-GROUP BY loans.book_id
-HAVING SUM(CASE WHEN loans.returned_on IS NOT NULL THEN 0 ELSE 1 END) < 1
-UNION
-SELECT books.id, books.title
-FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
-WHERE loans.id IS NULL;`, {
-                type: sequelize.QueryTypes.SELECT
-            }).then(callback);
-        }
-    }
-}
 
 router.get("/return_book", function (req, res, next) {
     Loan.findOne({
@@ -163,5 +148,22 @@ router.post("/return_book", function (req, res, next) {
     });
 
 });
+
+function getAvailableBooks() {
+    return {
+        then: function (callback) {
+            sequelize.query(`SELECT books.id, books.title
+FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
+GROUP BY loans.book_id
+HAVING SUM(CASE WHEN loans.returned_on IS NOT NULL THEN 0 ELSE 1 END) < 1
+UNION
+SELECT books.id, books.title
+FROM books LEFT OUTER JOIN loans ON books.id = loans.book_id
+WHERE loans.id IS NULL;`, {
+                type: sequelize.QueryTypes.SELECT
+            }).then(callback);
+        }
+    }
+}
 
 module.exports = router;

@@ -61,13 +61,12 @@ router.get("/", function (req, res, next) {
 
 router.get("/detail/:id", function (req, res, next) {
 
-    getBookDetails(req.params.id, function (book, loans) {
+    getBookDetails(req.params.id).then(function (book, loans) {
         res.render("book_detail", {
             book: book,
             loans: loans
         });
     });
-
 });
 
 router.post("/detail/:id", function (req, res, next) {
@@ -81,7 +80,7 @@ router.post("/detail/:id", function (req, res, next) {
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
 
-            getBookDetails(req.params.id, function (book, loans) {
+            getBookDetails(req.params.id).then(function {
                 res.render("book_detail", {
                     book: Book.build(req.body),
                     loans: loans,
@@ -94,28 +93,6 @@ router.post("/detail/:id", function (req, res, next) {
         }
     });
 });
-
-function getBookDetails(bookId, callback) {
-
-    Book.findById(bookId).then(function (book) {
-        Loan.findAll({
-            where: {
-                book_id: bookId
-            },
-            include: [
-                {
-                    model: Book
-                },
-                {
-                    model: Patron
-                }
-            ]
-        }).then(function (loans) {
-            callback(book, loans);
-        });
-    });
-
-}
 
 router.get("/new_book", function (req, res, next) {
     res.render("new_book", {
@@ -137,5 +114,30 @@ router.post("/new_book", function (req, res, next) {
         }
     });
 });
+
+
+function getBookDetails(bookId) {
+    return {
+        then: function (callback) {
+            Book.findById(bookId).then(function (book) {
+                Loan.findAll({
+                    where: {
+                        book_id: bookId
+                    },
+                    include: [
+                        {
+                            model: Book
+                            },
+                        {
+                            model: Patron
+                            }
+                        ]
+                }).then(function (loans) {
+                    callback(book, loans);
+                });
+            });
+        }
+    }
+}
 
 module.exports = router;
