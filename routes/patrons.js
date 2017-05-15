@@ -15,26 +15,11 @@ router.get("/", function (req, res, next) {
 
 router.get("/detail/:id", function (req, res, next) {
 
-    Patron.findById(req.params.id).then(function (patron) {
-        Loan.findAll({
-            where: {
-                patron_id: req.params.id
-            },
-            include: [
-                {
-                    model: Book
-                },
-                {
-                    model: Patron
-            }
-            ]
-        }).then(function (loans) {
-            res.render("patron_detail", {
-                patron: patron,
-                loans: loans
-            });
+    getPatronDetails(req.params.id).then(function (patron, loans) {
+        res.render("patron_detail", {
+            patron: patron,
+            loans: loans
         });
-
     });
 });
 
@@ -50,25 +35,11 @@ router.post("/detail/:id", function (req, res, next) {
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
 
-            Patron.findById(req.params.id).then(function (patron) {
-                Loan.findAll({
-                    where: {
-                        patron_id: req.params.id
-                    },
-                    include: [
-                        {
-                            model: Book
-                        },
-                        {
-                            model: Patron
-                        }
-                    ]
-                }).then(function (loans) {
-                    res.render("patron_detail", {
-                        patron: Patron.build(req.body),
-                        loans: loans,
-                        errors: err.errors
-                    })
+            getPatronDetails(req.params.id).then(function (patron, loans) {
+                res.render("patron_detail", {
+                    patron: Patron.build(req.body),
+                    loans: loans,
+                    errors: err.errors
                 });
             });
         } else {
@@ -97,5 +68,29 @@ router.post("/new_patron", function (req, res, next) {
         }
     });;
 });
+
+function getPatronDetails(patronId) {
+    return {
+        then: function (callback) {
+            Patron.findById(patronId).then(function (patron) {
+                Loan.findAll({
+                    where: {
+                        patron_id: patronId
+                    },
+                    include: [
+                        {
+                            model: Book
+                },
+                        {
+                            model: Patron
+            }
+            ]
+                }).then(function (loans) {
+                    callback(patron, loans);
+                });
+            });
+        }
+    }
+}
 
 module.exports = router;
