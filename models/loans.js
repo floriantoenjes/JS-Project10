@@ -30,12 +30,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         return_by: {
-            type: DataTypes.DATE,
-            validate: {
-                isDate: {
-                    msg: "Return by is required"
-                }
-            }
+            type: DataTypes.DATE
         },
         returned_on: DataTypes.DATE
     }, {
