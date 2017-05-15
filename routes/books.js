@@ -77,6 +77,7 @@ router.post("/detail/:id", function (req, res, next) {
         }
     }).then(function (book) {
         res.redirect("/books");
+
     }).catch(function (err) {
         if (err.name === "SequelizeValidationError") {
 
@@ -94,12 +95,12 @@ router.post("/detail/:id", function (req, res, next) {
     });
 });
 
-function getBookDetails(id, callback) {
+function getBookDetails(bookId, callback) {
 
-    Book.findById(id).then(function (book) {
+    Book.findById(bookId).then(function (book) {
         Loan.findAll({
             where: {
-                book_id: id
+                book_id: bookId
             },
             include: [
                 {
