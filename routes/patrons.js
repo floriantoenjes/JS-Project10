@@ -1,7 +1,7 @@
-const express = require("express");
-const Book = require("../db.js").books;
-const Loan = require("../db.js").loans;
-const Patron = require("../db.js").patrons;
+const express = require("express"),
+      Book = require("../db.js").books,
+      Loan = require("../db.js").loans,
+      Patron = require("../db.js").patrons;
 
 const router = express.Router();
 
@@ -68,6 +68,7 @@ router.post("/new_patron", function (req, res, next) {
         }
     });;
 });
+
 
 function getPatronDetails(patronId) {
     return {
