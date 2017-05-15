@@ -1,9 +1,9 @@
 const express = require("express"),
-    moment = require("moment"),
-    Book = require("../db.js").books,
-    Loan = require("../db.js").loans,
-    Patron = require("../db.js").patrons,
-    sequelize = require("../db.js").sequelize;
+      moment = require("moment"),
+      Book = require("../db.js").books,
+      Loan = require("../db.js").loans,
+      Patron = require("../db.js").patrons,
+      sequelize = require("../db.js").sequelize;
 
 const router = express.Router();
 
@@ -148,6 +148,7 @@ router.post("/return_book", function (req, res, next) {
     });
 
 });
+
 
 function getAvailableBooks() {
     return {
