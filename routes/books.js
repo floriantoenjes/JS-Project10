@@ -78,6 +78,7 @@ router.post("/detail/:id", function (req, res, next) {
         res.redirect("/books");
 
     }).catch(function (err) {
+
         if (err.name === "SequelizeValidationError") {
 
             getBookDetails(req.params.id).then(function {
